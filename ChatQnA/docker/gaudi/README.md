@@ -125,6 +125,9 @@ docker compose -f docker_compose.yaml up -d
 
 ### Validate MicroServices and MegaService
 
+Follow the instructions to validate MicroServices.
+For validation details, please refer to [how-to-validate_service](./how_to_validate_service.md).
+
 1. TEI Embedding Service
 
 ```bash
@@ -145,21 +148,17 @@ curl http://${host_ip}:6000/v1/embeddings \
 
 3. Retriever Microservice
 
-To consume the retriever microservice, you need to generate a mock embedding vector of length 768 in Python script:
+To consume the retriever microservice, you need to generate a mock embedding vector by Python script. The length of embedding vector 
+is determined by the embedding model.
+Here we use the model `EMBEDDING_MODEL_ID="BAAI/bge-base-en-v1.5"`, which vector size is 768.
 
-```python
-import random
-
-embedding = [random.uniform(-1, 1) for _ in range(768)]
-print(embedding)
-```
-
-Then substitute your mock embedding vector for the `${your_embedding}` in the following `curl` command:
+Check the vecotor dimension of your embedding model, set `your_embedding` dimension equals to it.
 
 ```bash
+your_embedding=$(python -c "import random; embedding = [random.uniform(-1, 1) for _ in range(768)]; print(embedding)")
 curl http://${host_ip}:7000/v1/retrieval \
   -X POST \
-  -d '{"text":"test", "embedding":${your_embedding}}' \
+  -d "{\"text\":\"test\",\"embedding\":${your_embedding}}" \
   -H 'Content-Type: application/json'
 ```
 
