@@ -52,6 +52,9 @@ for MEGA_SVC in $1; do
             docker_build ${IMAGE_NAME}
             cd ui
             docker_build ${IMAGE_NAME}-ui docker/Dockerfile
+            if [ "$MEGA_SVC" == "ChatQnA" ];then
+                docker_build ${IMAGE_NAME}-conversation-ui docker/Dockerfile.react
+            fi
             ;;
         "AudioQnA"|"SearchQnA"|"VisualQnA")
             echo "Not supported yet"
