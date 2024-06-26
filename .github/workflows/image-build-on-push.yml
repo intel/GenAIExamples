@@ -5,7 +5,7 @@ name: Build latest images on push event
 
 on:
   push:
-    branches: [ 'main' ]
+    branches: [ 'main','daisyonpush' ]
     paths:
       - "**/docker/*.py"
       - "**/docker/Dockerfile"
@@ -23,8 +23,11 @@ jobs:
   mega-image-build:
     needs: job1
     strategy:
-      matrix: ${{ fromJSON(needs.job1.outputs.run_matrix) }}
+      matrix:
+        workload: ${{ fromJSON(needs.job1.outputs.run_matrix).include.*.example }}
+        hardware: ["gaudi","xeon"]
     uses: ./.github/workflows/reuse-image-build.yml
     with:
-      image-tag: latest
-      mega-service: "${{ matrix.example }}"
+      image_tag: latest
+      mega_service: "${{ matrix.workload }}"
+      runner_label: docker-build-${{ matrix.hardware }}
