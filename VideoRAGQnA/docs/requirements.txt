@@ -1,0 +1,12 @@
+accelerate
+chromadb
+dateparser
+gradio
+langchain-experimental
+metafunctions
+open-clip-torch
+opencv-python-headless
+sentence-transformers
+streamlit
+tzlocal
+vdms
