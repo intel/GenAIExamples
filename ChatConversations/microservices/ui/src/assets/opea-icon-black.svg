@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 28.4.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="800px" height="800px" viewBox="0 0 800 800" style="enable-background:new 0 0 800 800;" xml:space="preserve">
+<style type="text/css">
+	.Drop_x0020_Shadow{fill:none;}
+	.Outer_x0020_Glow_x0020_5_x0020_pt{fill:none;}
+	.Blue_x0020_Neon{fill:none;stroke:#8AACDA;stroke-width:7;stroke-linecap:round;stroke-linejoin:round;}
+	.Chrome_x0020_Highlight{fill:url(#SVGID_1_);stroke:#FFFFFF;stroke-width:0.3629;stroke-miterlimit:1;}
+	.Jive_GS{fill:#FFDD00;}
+	.Alyssa_GS{fill:#A6D0E4;}
+	.st0{fill:#FF6900;}
+	.st1{fill:#FFB500;}
+	.st2{fill:#FFFFFF;}
+</style>
+<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="-1640" y1="-1640" x2="-1640" y2="-1641">
+	<stop  offset="0" style="stop-color:#656565"/>
+	<stop  offset="0.618" style="stop-color:#1B1B1B"/>
+	<stop  offset="0.6292" style="stop-color:#545454"/>
+	<stop  offset="0.9831" style="stop-color:#3E3E3E"/>
+</linearGradient>
+<g>
+	<polygon points="400,0 737.5,181.7 607.3,252.8 269.7,71.1 	"/>
+	<path d="M708.3,414.7l29.2,15.7l-130.3,71.1l-44.9-24.2v-31.7l40,21.5c1.5,0.8,3.2,1.2,4.9,1.2c1.7,0,3.4-0.4,5-1.3l0,0
+		L708.3,414.7z"/>
+	<path d="M557.3,532.1c-0.1-0.1-0.3-0.1-0.4-0.2l0,0l-34.2-18.4l31.2-17l42.9,23.1v169.9l-34.5-18.6V541
+		C562.4,537.3,560.4,533.9,557.3,532.1z"/>
+	<polygon points="410.4,381.3 541.6,309.7 541.6,479.5 410.4,551.2 	"/>
+	<path d="M258.4,88.5l338.6,182.3v169.9l-34.5-18.6V292.2c0-3.7-1.9-7-5.1-8.9c-0.1-0.1-0.3-0.1-0.4-0.2l0,0L258.4,122.3V88.5z"/>
+	<polygon points="192.7,110.6 530.3,292.3 400,363.4 62.5,181.6 	"/>
+	<polygon points="51.1,369 51.1,199 389.6,381.3 389.6,551.3 96.6,393.5 	"/>
+	<path d="M91.7,414.4l303.4,163.3c1.5,0.8,3.2,1.2,4.9,1.2c1.7,0,3.4-0.4,5-1.3l0,0l96.1-52.4l29.2,15.7L400,612.1L62.5,430.4
+		L91.7,414.4z"/>
+	<polygon points="51.1,447.8 389.6,630.1 389.6,800 51.1,617.7 	"/>
+	<polygon points="541.6,728.3 410.4,799.9 410.4,630 541.6,558.4 	"/>
+	<polygon points="748.9,617.7 617.6,689.3 617.6,519.5 748.9,447.9 	"/>
+	<polygon points="748.9,369 617.6,440.6 617.6,270.7 748.9,199.1 	"/>
+</g>
+</svg>

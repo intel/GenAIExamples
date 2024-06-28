@@ -1,0 +1,29 @@
+# Copyright (C) 2024 Intel Corporation
+# SPDX-License-Identifier: Apache-2.0
+
+from os.path import abspath, dirname, join
+
+from pydantic_settings import BaseSettings
+
+
+class Settings(BaseSettings):
+    """Settings Class for the Application."""
+
+    BASE_DIR: str = dirname(dirname(abspath(__file__)))
+
+    # Settings having values in environment file (.env)
+    APP_DISPLAY_NAME: str = ...
+    APP_NAME: str = ...
+    APP_DNS: str = ...
+    APP_PORT: int = ...
+    MONGODB_DB_NAME: str = ...
+    CONVERSATION_TABLE: str = ...
+    PLUGIN_FILE: str = ...
+    MAX_MESSAGE_LENGTH: int = ...
+    MAX_HISTORY_LENGTH: int = ...
+
+    MONGO_HOST: str
+    MONGO_PORT: int
+
+    class Config:
+        env_file = join(dirname(abspath(__file__)), ".env")

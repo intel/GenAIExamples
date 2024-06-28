@@ -1,0 +1,52 @@
+[
+  {
+    "plugin_type": "llm",
+    "module": "core.chat_model.llm.custom_model",
+    "class": "CustomModel",
+    "restricted": false,
+    "args": {
+      "model_type": "intel.neuralchat",
+      "model_name": "Intel/neural-chat-7b-v3-3",
+      "token_limit": 500,
+      "temperature": 0.3
+    },
+    "envs": { "api_base": "OPEA_vLLM_INTEL_NEURAL_CHAT_ENDPOINT" },
+    "props": {
+      "display_name": "Intel Neural Chat",
+      "version": 1,
+      "vendor": "others",
+      "platform": "edge",
+      "min_temperature": 0,
+      "max_temperature": 1,
+      "min_token_limit": 100,
+      "max_token_limit": 2000,
+      "data_insights_input_token": 12000,
+      "data_insights_output_token": 3500
+    }
+  },
+  {
+    "plugin_type": "llm",
+    "module": "core.chat_model.llm.custom_model",
+    "class": "CustomModel",
+    "restricted": false,
+    "args": {
+      "model_type": "meta.llama2.vllm",
+      "model_name": "meta-llama/Llama-2-7b-chat-hf",
+      "token_limit": 500,
+      "temperature": 0.3
+    },
+    "envs": { "api_base": "OPEA_vLLM_LLAMA2_ENDPOINT" },
+    "props": {
+      "display_name": "LLAMA 2",
+      "version": 1,
+      "vendor": "meta",
+      "platform": "edge",
+      "min_temperature": 0,
+      "max_temperature": 1,
+      "min_token_limit": 100,
+      "max_token_limit": 2000,
+      "data_insights_input_token": 12000,
+      "data_insights_output_token": 3500
+    }
+  }
+]

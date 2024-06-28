@@ -1,0 +1,5 @@
+@import "../layout/flex";
+
+@mixin sidebar {
+  @include flex(column, nowrap, flex-start, flex-start);
+}

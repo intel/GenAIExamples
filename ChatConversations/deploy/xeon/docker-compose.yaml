@@ -1,0 +1,76 @@
+# Copyright (C) 2024 Intel Corporation
+# SPDX-License-Identifier: Apache-2.0
+
+version: '3'
+services:
+# chat Conversations services
+    chat:
+        image: opea/chat-conversation-service:latest
+        build:
+            context: ../../
+            dockerfile: microservices/chat/Dockerfile
+        ports:
+            - ${CHAT_API_PORT}:8002
+        environment:
+            http_proxy: ${http_proxy}
+            https_proxy: ${https_proxy}
+            no_proxy: ${no_proxy}
+            MONGO_HOST: ${MONGO_HOST}
+            MONGO_PORT: ${MONGO_PORT}
+            OPEA_vLLM_INTEL_NEURAL_CHAT_ENDPOINT: ${OPEA_vLLM_INTEL_NEURAL_CHAT_ENDPOINT}
+            OPEA_vLLM_LLAMA2_ENDPOINT: ${OPEA_vLLM_LLAMA2_ENDPOINT}
+
+
+    vllm-llama2:
+        image: vllm:cpu
+        ports:
+            - ${LLAMA2_PORT}:80
+        volumes:
+            - "./data:/data"
+        environment:
+            http_proxy: ${http_proxy}
+            https_proxy: ${https_proxy}
+            no_proxy: ${no_proxy}
+            HF_TOKEN: ${HUGGING_FACE_HUB_TOKEN}
+
+        command: /bin/bash -c "cd / && export VLLM_CPU_KVCACHE_SPACE=40 && python3 -m vllm.entrypoints.openai.api_server --model "$LLM_MODEL_ID_LLAMA" --host 0.0.0.0 --port 80 --chat-template /workspace/examples/template_chatml.jinja" --disable-log-requests
+
+    vllm-neural-chat:
+        image: vllm:cpu
+        ports:
+            - ${NEURAL_CHAT_PORT}:80
+        volumes:
+            - "./data:/data"
+        environment:
+            http_proxy: ${http_proxy}
+            https_proxy: ${https_proxy}
+            no_proxy: ${no_proxy}
+            HF_TOKEN: ${HUGGING_FACE_HUB_TOKEN}
+
+        command: /bin/bash -c "cd / && export VLLM_CPU_KVCACHE_SPACE=40 && python3 -m vllm.entrypoints.openai.api_server --model "$LLM_MODEL_ID_NEURAL" --host 0.0.0.0 --port 80 --chat-template /workspace/examples/template_chatml.jinja" --disable-log-requests
+
+    ui:
+        image: opea/chat-conversation-ui-service:latest
+        build:
+            context: ../../microservices/ui
+            args:
+                - VITE_SERVICE_URL=${CONVERSATION_URL}
+        ports:
+            - ${UI_PORT}:80
+        depends_on:
+            - chat
+        restart: unless-stopped
+
+
+    mongodb:
+        image: mongo:7.0.11
+        ports:
+            - ${MONGO_PORT}:27017
+        environment:
+            http_proxy: ${http_proxy}
+            https_proxy: ${https_proxy}
+            no_proxy: ${no_proxy}
+        command: mongod --quiet --logpath /dev/null
+networks:
+  default:
+    driver: bridge

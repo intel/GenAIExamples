@@ -1,0 +1,39 @@
+@import "./styles/styles";
+
+.root {
+  @include flex(row, nowrap, flex-start, flex-start);
+}
+
+.layout-wrapper {
+  @include absolutes;
+
+  display: grid;
+
+  width: 100%;
+  height: 100%;
+
+  grid-template-columns: 80px auto;
+  grid-template-rows: 1fr;
+}
+
+/* ===== Scrollbar CSS ===== */
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #d6d6d6 #ffffff;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #d6d6d6;
+  border-radius: 16px;
+  border: 4px double #dedede;
+}

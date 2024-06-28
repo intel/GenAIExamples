@@ -1,0 +1,10 @@
+fastapi==0.109.2
+langchain==0.1.12
+langchain-community==0.0.28
+langchain-openai
+motor==3.4.0
+opea-comps==0.6
+openai==1.10.0
+pydantic_settings==2.0.3
+sse-starlette==2.0.
+uvicorn>=0.21.0,<0.23.0
