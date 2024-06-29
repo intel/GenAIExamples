@@ -41,10 +41,18 @@ jobs:
           cat main-requirements.txt
 
       - name: Compare requirements
+        env:
+          URL: ${{ github.event.pull_request.comments_url }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           comm -23 pr-requirements.txt main-requirements.txt > added-packages.txt
           if [ -s added-packages.txt ]; then
-            echo "New packages found in PR:" && cat added-packages.txt
+            new_packages=$(cat added-packages.txt)
+            echo "New 3rd party dependency found in PR: $new_packages"
+            curl -X POST $URL \
+            -H "Content-Type: application/json" \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            --data "{ \"body\": \"New 3rd party dependency found in PR: $new_packages\" }"
           else
-            echo "No new packages found😊."
+            echo "No new 3rd party dependency found😊."
           fi
