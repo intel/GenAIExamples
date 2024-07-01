@@ -13,15 +13,14 @@ import gradio as gr
 import requests
 
 title_markdown = """
-# 🌋 LLaVA demo on Gaudi2
+# 🌋 在 Gaudi2 上展示 LLaVA
 """
 
 tos_markdown = """
-### Terms of use
-By using this service, users are required to agree to the following terms:
-The service is a research preview intended for non-commercial use only. It only provides limited safety measures and may generate offensive content. It must not be used for any illegal, harmful, violent, racist, or sexual purposes. The service may collect user dialogue data for future research.
-Please click the "Flag" button if you get any inappropriate answer! We will collect those to keep improving our moderator.
-For an optimal experience, please use desktop computers for this demo, as mobile devices may compromise its quality.
+### 使用条款
+使用本服务即表示用户同意以下条款：
+本服务为研究预览版，仅供非商业用途。它仅提供有限的安全措施，可能会生成冒犯性内容。严禁将本服务用于任何非法、有害、暴力、种族歧视或色情的目的。本服务可能会收集用户对话数据以用于未来研究。
+为获得最佳体验，请使用台式电脑访问本演示，因为移动设备可能会影响其质量。
 """
 
 block_css = """
@@ -29,6 +28,20 @@ block_css = """
 #buttons button {
     min-width: min(120px,100%);
 }
+
+.upload-container .wrap,
+.upload-container .wrap .or {
+  color: #1f2937;
+}
+
+
+.upload-container .wrap .icon-wrap {
+  color: #e5e7eb;
+  margin-top: 4rem;
+  width: 4rem;
+  height: 3rem;
+}
+
 
 """
 
@@ -85,8 +98,10 @@ def clear_history(chat_history, image, text):
 
 
 def build_demo(embed_mode, cur_dir=None, concurrency_count=10):
-    textbox = gr.Textbox(show_label=False, placeholder="Enter text and press ENTER", container=False)
+    textbox = gr.Textbox(show_label=False, placeholder="输入文字并按回车键", container=False)
     with gr.Blocks(title="LLaVA", theme=gr.themes.Default(), css=block_css) as demo:
+        # demo.add(custom_html)
+
         state = gr.State()
 
         if not embed_mode:
@@ -94,35 +109,36 @@ def build_demo(embed_mode, cur_dir=None, concurrency_count=10):
 
         with gr.Row():
             with gr.Column(scale=3):
-                imagebox = gr.Image(type="pil")
+                imagebox = gr.Image(type="pil", label="图片", interactive=True, elem_id="my_imagebox")
 
                 if cur_dir is None:
                     cur_dir = os.path.dirname(os.path.abspath(__file__))
                 gr.Examples(
                     examples=[
-                        [f"{cur_dir}/resources/extreme_ironing.jpg", "What is unusual about this image?"],
+                        [f"{cur_dir}/resources/extreme_ironing.jpg", "这张图片有什么不寻常之处？"],
                         [
                             f"{cur_dir}/resources/waterview.jpg",
-                            "What are the things I should be cautious about when I visit here?",
+                            "当我去那里访问时，我应该注意哪些事情？",
                         ],
                     ],
+                    label="请选择一个示例",
                     inputs=[imagebox, textbox],
                 )
 
-                with gr.Accordion("Parameters", open=False) as parameter_row:
+                with gr.Accordion("参数", open=False) as parameter_row:
                     max_output_tokens = gr.Slider(
                         minimum=0,
                         maximum=1024,
                         value=512,
                         step=64,
                         interactive=True,
-                        label="Max output tokens",
+                        label="最大输出标记数",
                     )
 
             with gr.Column(scale=8):
                 chatbot = gr.Chatbot(
                     elem_id="chatbot",
-                    label="LLaVA Chatbot",
+                    label="LLaVA聊天机器人",
                     height=650,
                     layout="panel",
                 )
@@ -130,9 +146,9 @@ def build_demo(embed_mode, cur_dir=None, concurrency_count=10):
                     with gr.Column(scale=8):
                         textbox.render()
                     with gr.Column(scale=1, min_width=50):
-                        submit_btn = gr.Button(value="Send", variant="primary")
+                        submit_btn = gr.Button(value="发送", variant="primary")
                 with gr.Row(elem_id="buttons") as button_row:
-                    clear_btn = gr.Button(value="🗑️  Clear", interactive=False)
+                    clear_btn = gr.Button(value="🗑️  清除", interactive=False)
 
         if not embed_mode:
             gr.Markdown(tos_markdown)
