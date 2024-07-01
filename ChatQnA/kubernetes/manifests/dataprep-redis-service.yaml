@@ -5,19 +5,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: chaqna-xeon-backend-server-deploy
+  name: dataprep-redis-service-deploy
   namespace: default
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: chaqna-xeon-backend-server-deploy
+      app: dataprep-redis-service-deploy
   template:
     metadata:
       annotations:
         sidecar.istio.io/rewriteAppHTTPProbers: "true"
       labels:
-        app: chaqna-xeon-backend-server-deploy
+        app: dataprep-redis-service-deploy
     spec:
       nodeSelector:
         demo: "chatqna"
@@ -27,30 +27,29 @@ spec:
         whenUnsatisfiable: ScheduleAnyway
         labelSelector:
                matchLabels:
-                 app: chaqna-xeon-backend-server-deploy
+                 app: dataprep-redis-service-deploy
       hostIPC: true
       containers:
       - envFrom:
         - configMapRef:
             name: qna-config
-        image: opea/chatqna:latest
+        image: opea/dataprep-redis:latest
         imagePullPolicy: IfNotPresent
-        name: chaqna-xeon-backend-server-deploy
+        name: dataprep-redis-service-deploy
         args:
         ports:
-        - containerPort: 8888
+        - containerPort: 6007
       serviceAccountName: default
 ---
 kind: Service
 apiVersion: v1
 metadata:
-  name: chaqna-xeon-backend-server-svc
+  name: dataprep-redis-service-svc
 spec:
   type: NodePort
   selector:
-    app: chaqna-xeon-backend-server-deploy
+    app: dataprep-redis-service-deploy
   ports:
     - name: service
-      port: 8888
-      targetPort: 8888
-      nodePort: 30888
+      port: 6007
+      targetPort: 6007

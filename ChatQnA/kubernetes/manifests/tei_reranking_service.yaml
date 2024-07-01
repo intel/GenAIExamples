@@ -6,6 +6,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: tei-reranking-service-deploy
+  namespace: default
 spec:
   replicas: 1
   selector:
@@ -18,6 +19,15 @@ spec:
       labels:
         app: tei-reranking-service-deploy
     spec:
+      nodeSelector:
+        demo: "chatqna"
+      topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: ScheduleAnyway
+        labelSelector:
+               matchLabels:
+                 app: tei-reranking-service-deploy
       containers:
       - envFrom:
         - configMapRef:
@@ -27,6 +37,7 @@ spec:
         args:
         - --model-id
         - $(RERANK_MODEL_ID)
+        - --auto-truncate
         volumeMounts:
         - mountPath: /data
           name: model-volume

@@ -16,6 +16,15 @@ spec:
       labels:
         app: redis-vector-db
     spec:
+      nodeSelector:
+        demo: "chatqna"
+      topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: ScheduleAnyway
+        labelSelector:
+               matchLabels:
+                 app: redis-vector-db
       containers:
       - name: redis-vector-db
         image: redis/redis-stack:7.2.0-v9

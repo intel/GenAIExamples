@@ -5,19 +5,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: tgi-gaudi-service-deploy
+  name: tgi-gaudi-service-deploy-without-rag
   namespace: default
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: tgi-gaudi-service-deploy
+      app: tgi-gaudi-service-deploy-without-rag
   template:
     metadata:
       annotations:
         sidecar.istio.io/rewriteAppHTTPProbers: "true"
       labels:
-        app: tgi-gaudi-service-deploy
+        app: tgi-gaudi-service-deploy-without-rag
     spec:
       #      nodeSelector:
       #        demo: chatqna
@@ -38,7 +38,7 @@ spec:
             #- name: QUANT_CONFIG
             #value: "/data/maxabs_quant.json"
         image: tgi_gaudi:1.15.1
-        name: tgi-gaudi-service-deploy-demo
+        name: tgi-gaudi-service-deploy-without-rag-demo
         securityContext:
           capabilities:
             add: ["SYS_NICE"]
@@ -81,12 +81,13 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: tgi-gaudi-svc
+  name: tgi-gaudi-without-rag-svc
 spec:
-  type: ClusterIP
+  type: NodePort
   selector:
-    app: tgi-gaudi-service-deploy
+    app: tgi-gaudi-service-deploy-without-rag
   ports:
     - name: service
-      port: 9009
+      port: 7979
       targetPort: 80
+      nodePort: 30799

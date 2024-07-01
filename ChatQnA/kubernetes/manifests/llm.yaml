@@ -6,6 +6,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: llm-deploy
+  namespace: default
 spec:
   replicas: 1
   selector:
@@ -18,6 +19,15 @@ spec:
       labels:
         app: llm-deploy
     spec:
+      nodeSelector:
+        demo: "chatqna"
+      topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: ScheduleAnyway
+        labelSelector:
+               matchLabels:
+                 app: llm-deploy
       hostIPC: true
       containers:
       - envFrom:
