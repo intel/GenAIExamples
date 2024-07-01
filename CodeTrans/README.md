@@ -12,10 +12,12 @@ This Code Translation use case uses Text Generation Inference on Intel Gaudi2 or
 
 The Code Translation service can be effortlessly deployed on either Intel Gaudi2 or Intel Xeon Scalable Processor.
 
-## Deploy Code Translation on Gaudi
+## Deploy with Docker
 
-Refer to the [Gaudi Guide](./docker/gaudi/README.md) for instructions on deploying Code Translation on Gaudi.
+- To deploy Code Translation on Gaudi please refer to the [Gaudi Guide](./docker/gaudi/README.md)
 
-## Deploy Code Translation on Xeon
+- To deploy Code Translation on Xeon please refer to the [Xeon Guide](./docker/xeon/README.md).
 
-Refer to the [Xeon Guide](./docker/xeon/README.md) for instructions on deploying Code Translation on Xeon.
+## Deploy with Kubernetes
+
+Please refer to the [Code Translation Kubernetes Guide](./kubernetes/README.md)

@@ -22,14 +22,12 @@ The workflow falls into the following architecture:
 
 The CodeGen service can be effortlessly deployed on either Intel Gaudi2 or Intel Xeon Scalable Processor.
 
-## Deploy CodeGen on Gaudi
+## Deploy CodeGen using Docker
 
-Refer to the [Gaudi Guide](./docker/gaudi/README.md) for instructions on deploying CodeGen on Gaudi.
+- Refer to the [Gaudi Guide](./docker/gaudi/README.md) for instructions on deploying CodeGen on Gaudi.
 
-## Deploy CodeGen on Xeon
+- Refer to the [Xeon Guide](./docker/xeon/README.md) for instructions on deploying CodeGen on Xeon.
 
-Refer to the [Xeon Guide](./docker/xeon/README.md) for instructions on deploying CodeGen on Xeon.
-
-## Deploy CodeGen into Kubernetes on Xeon & Gaudi
+## Deploy CodeGen using Kubernetes
 
 Refer to the [Kubernetes Guide](./kubernetes/manifests/README.md) for instructions on deploying CodeGen into Kubernetes on Xeon & Gaudi.

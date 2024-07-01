@@ -35,18 +35,19 @@ For Gaudi:
 ## Deploy ChatQnA pipeline
 This involves deploying the ChatQnA custom resource. You can use chatQnA_xeon.yaml or if you have a Gaudi cluster, you could use chatQnA_gaudi.yaml. 
 
+1. Create namespace and deploy application
 ```sh
 kubectl create ns chatqa
 kubectl apply -f $(pwd)/chatQnA_xeon.yaml
 ```
 
-**GMC will reconcile the ChatQnA custom resource and get all related components/services ready**
+2. GMC will reconcile the ChatQnA custom resource and get all related components/services ready. Check if the service up.
 
 ```sh
 kubectl get service -n chatqa
 ```
 
-**Obtain the ChatQnA custom resource/pipeline access URL**
+3. Retrieve the application access URL
 
 ```sh
 kubectl get gmconnectors.gmc.opea.io -n chatqa
@@ -54,13 +55,13 @@ NAME     URL                                                      READY     AGE
 chatqa   http://router-service.chatqa.svc.cluster.local:8080      8/0/8     3m
 ```
 
-**Deploy a client pod to test the ChatQnA application**
+4. Deploy a client pod to test the application
 
 ```sh
 kubectl create deployment client-test -n chatqa --image=python:3.8.13 -- sleep infinity
 ```
 
-**Access the pipeline using the above URL from the client pod**
+5. Access the application using the above URL from the client pod
 
 ```sh
 export CLIENT_POD=$(kubectl get pod -l app=client-test -o jsonpath={.items..metadata.name})
@@ -68,7 +69,7 @@ export accessUrl=$(kubectl get gmc -n chatqa -o jsonpath="{.items[?(@.metadata.n
 kubectl exec "$CLIENT_POD" -n chatqa -- curl $accessUrl  -X POST  -d '{"text":"What is the revenue of Nike in 2023?","parameters":{"max_new_tokens":17, "do_sample": true}}' -H 'Content-Type: application/json'
 ```
 
-**Modify ChatQnA custom resource to use another LLM model**
+6. Perhaps you want to try another LLM model? Just modify the application custom resource to use another LLM model
 
 Should you, for instance, want to change the LLM model you are using in the ChatQnA pipeline, just edit the custom resource file.
 For example, to use Llama-2-7b-chat-hf make the following edit:
@@ -83,18 +84,18 @@ For example, to use Llama-2-7b-chat-hf make the following edit:
       LLM_MODEL_ID: Llama-2-7b-chat-hf
 ```
 
-Apply the change using
+7. Apply the change
 ```
 kubectl apply -f $(pwd)/chatQnA_xeon.yaml
 ```
 
-**Check that the tgi-svc-deployment has been changed to use the new LLM Model**
+8. Check that the tgi-svc-deployment has been changed to use the new LLM Model
 
 ```sh
 kubectl get deployment tgi-svc-deployment -n chatqa -o jsonpath="{.spec.template.spec.containers[*].env[?(@.name=='LLM_MODEL_ID')].value}"
 ```
 
-**Access the updated pipeline using the same URL frm above from within the client pod**
+9. Access the updated pipeline using the same URL from above using the client pod
 
 ```sh
 kubectl exec "$CLIENT_POD" -n chatqa -- curl $accessUrl -X POST -d '{"text":"What is the revenue of Nike in 2023?","parameters":{"max_new_tokens":17, "do_sample": true}}' -H 'Content-Type: application/json'

@@ -13,11 +13,14 @@ The architecture for document summarization will be illustrated/described below:
 # Deploy Document Summarization Service
 
 The Document Summarization service can be effortlessly deployed on either Intel Gaudi2 or Intel XEON Scalable Processors.
+Based on whether you want to use Docker or Kubernetes, please follow the instructions below.
 
-## Deploy Document Summarization on Gaudi
+## Deploy using Docker
 
-Refer to the [Gaudi Guide](./docker/gaudi/README.md) for instructions on deploying Document Summarization on Gaudi.
+- Refer to the [Gaudi Guide](./docker/gaudi/README.md) for instructions on deploying Document Summarization on Gaudi.
 
-## Deploy Document Summarization on Xeon
+- Refer to the [Xeon Guide](./docker/xeon/README.md) for instructions on deploying Document Summarization on Xeon.
 
-Refer to the [Xeon Guide](./docker/xeon/README.md) for instructions on deploying Document Summarization on Xeon.
+## Deploy using Kubernetes
+
+Please refer to [Kubernetes deployment](./kubernetes/README.md)
