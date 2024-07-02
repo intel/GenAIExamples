@@ -18,6 +18,7 @@ services:
       - redis-vector-db
     ports:
       - "6007:6007"
+      - "6008:6008"
     environment:
       no_proxy: ${no_proxy}
       http_proxy: ${http_proxy}
@@ -192,6 +193,7 @@ services:
       - http_proxy=${http_proxy}
       - CHAT_BASE_URL=${BACKEND_SERVICE_ENDPOINT}
       - UPLOAD_FILE_BASE_URL=${DATAPREP_SERVICE_ENDPOINT}
+      - GET_FILE=${DATAPREP_GET_FILE_ENDPOINT}
     ipc: host
     restart: always
 
