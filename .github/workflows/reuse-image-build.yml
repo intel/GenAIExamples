@@ -21,7 +21,7 @@ on:
         default: 'docker-build-xeon'
     outputs:
       image_repo:
-        description: "The image reposity used for the image build"
+        description: "The image repository used for the image build"
         value: ${{ jobs.mega-image-build.outputs.image_repo }}
       image_tag:
         description: "The image tag used for the image build"
