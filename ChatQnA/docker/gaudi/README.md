@@ -123,6 +123,8 @@ cd GenAIExamples/ChatQnA/docker/gaudi/
 docker compose -f docker_compose.yaml up -d
 ```
 
+> **_NOTE:_** Users need at least two Gaudi cards to run the ChatQnA successfully.
+
 ### Validate MicroServices and MegaService
 
 1. TEI Embedding Service
