@@ -148,7 +148,7 @@ curl http://${host_ip}:6000/v1/embeddings \
 
 3. Retriever Microservice
 
-To consume the retriever microservice, you need to generate a mock embedding vector by Python script. The length of embedding vector 
+To consume the retriever microservice, you need to generate a mock embedding vector by Python script. The length of embedding vector
 is determined by the embedding model.
 Here we use the model `EMBEDDING_MODEL_ID="BAAI/bge-base-en-v1.5"`, which vector size is 768.
 

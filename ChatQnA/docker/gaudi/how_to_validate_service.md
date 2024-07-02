@@ -1,4 +1,4 @@
-# How to Check and Vaildate Micro Service in the GenAI Example
+# How to Check and Validate Micro Service in the GenAI Example
 
 GenAI examples build mega-services on top of the micro-service and server.
 To make mega-service works, each micro service and server must work as expected.
@@ -10,13 +10,16 @@ Assumption: build all docker images already
 Here are steps to check the micro service and server.
 
 ## 1. Check environment variables
+
 Make sure environment variables are set
 
 start the docker containers
+
 ```
 cd ./GenAIExamples/ChatQnA/docker/gaudi
 docker compose -f ./docker_compose.yaml up -d
 ```
+
 Check the start up log by `docker compose -f ./docker/gaudi/docker_compose.yaml logs`.
 Where the docker_compose.yaml file is the mega service docker-compose configuration.
 The warning messages point out the veriabls are **NOT** set.
@@ -35,6 +38,7 @@ WARN[0000] /home/ubuntu/GenAIExamples/ChatQnA/docker/gaudi/docker_compose.yaml: 
 ```
 
 ## 2. Check the docker container status
+
 Check the docker containers are started
 
 For example, the ChatQnA example starts 11 docker (services), check these docker containers are all running, i.e, all the contaniers `STATUS` are `Up`
@@ -59,9 +63,11 @@ f810f3b4d329   opea/embedding-tei:latest                               "python e
 ```
 
 In this case, `ghcr.io/huggingface/tgi-gaudi:1.2.1` Existed.
+
 ```
 05c40b636239   ghcr.io/huggingface/tgi-gaudi:1.2.1                     "text-generation-lau…"   2 minutes ago   Exited (1) About a minute ago                                                                                          tgi-gaudi-server
 ```
+
 Next we can check the container logs to get to know what happened during the docker start.
 
 ## 3. Check docker container log
@@ -96,7 +102,6 @@ The log shows `RuntimeError: synStatus=9 [Device-type mismatch] Device acquire f
 
 So just make sure the devices are available.
 
-
 Here is another failure example:
 
 ```
@@ -114,6 +119,7 @@ Check the log by `docker logs f7a08f9867f9 -t`.
 The log indicates the MODLE_ID is not set.
 
 View the docker input parameters in `./ChatQnA/docker/gaudi/docker_compose.yaml`
+
 ```
   tgi-service:
     image: ghcr.io/huggingface/tgi-gaudi:1.2.1
@@ -134,12 +140,14 @@ View the docker input parameters in `./ChatQnA/docker/gaudi/docker_compose.yaml`
     ipc: host
     command: --model-id ${LLM_MODEL_ID}
 ```
+
 The input MODEL_ID is `${LLM_MODEL_ID}`
 
-Checke environment variable `LLM_MODEL_ID` is set correctly, spelled correctly.
+Check environment variable `LLM_MODEL_ID` is set correctly, spelled correctly.
 Set the LLM_MODEL_ID then restart the containers.
 
 Also you can check overall logs with the following command, where the docker_compose.yaml is the mega service docker-compose configuration file.
+
 ```
 docker compose -f ./docker-composer/gaudi/docker_compose.yaml logs
 ```
@@ -158,7 +166,7 @@ curl ${host_ip}:8090/embed \
 This test the embedding service. It sends "What is Deep Learning?" to the embedding service, the output is the embedding result of the sentences, it is a list of vector.
 `[[0.00030903306,-0.06356524,0.0025720573,-0.012404448,0.050649878, ... , -0.02776986,-0.0246678,0.03999176,0.037477136,-0.006806653,0.02261455,-0.04570737,-0.033122733,0.022785513,0.0160026,-0.021343587,-0.029969815,-0.0049176104]]`
 
-**Note**: The vector dimension are decided by the embedding model and the output value is depenendent on  model and input data.
+**Note**: The vector dimension are decided by the embedding model and the output value is dependent on model and input data.
 
 ### 2 Embedding Microservice
 
@@ -168,9 +176,10 @@ curl http://${host_ip}:6000/v1/embeddings\
   -d '{"text":"What is Deep Learning?"}' \
   -H 'Content-Type: application/json'
 ```
-This test the embedding microservice. In this test, it sends out `What is Deep Learning?` to embeding.
+
+This test the embedding microservice. In this test, it sends out `What is Deep Learning?` to embedding.
 Embedding microservice get input data, call embedding service to embedding data.
-Embedding server are with NO state, but microservice keep the state. There is `id` in the output of `Embedding Microservice`. 
+Embedding server are with NO state, but microservice keep the state. There is `id` in the output of `Embedding Microservice`.
 
 ```
 {"id":"e8c85e588a235a4bc4747a23b3a71d8f","text":"What is Deep Learning?","embedding":[0.00030903306,-0.06356524,0.0025720573,-0.012404448,0.050649878, ...,   0.02776986,-0.0246678,0.03999176,0.037477136,-0.006806653,0.02261455,-0.04570737,-0.033122733,0.022785513,0.0160026,-0.021343587,-0.029969815,-0.0049176104]}
@@ -192,7 +201,8 @@ curl http://${host_ip}:7000/v1/retrieval \
   -H 'Content-Type: application/json'
 ```
 
-The output is retrived text that relevant to the input data:
+The output is retrieved text that relevant to the input data:
+
 ```
 {"id":"27210945c7c6c054fa7355bdd4cde818","retrieved_docs":[{"id":"0c1dd04b31ab87a5468d65f98e33a9f6","text":"Company: Nike. financial instruments are subject to master netting arrangements that allow for the offset of assets and liabilities in the event of default or early termination of the contract.\nAny amounts of cash collateral received related to these instruments associated with the Company's credit-related contingent features are recorded in Cash and\nequivalents and Accrued liabilities, the latter of which would further offset against the Company's derivative asset balance. Any amounts of cash collateral posted related\nto these instruments associated with the Company's credit-related contingent features are recorded in Prepaid expenses and other current assets, which would further\noffset against the Company's derivative liability balance. Cash collateral received or posted related to the Company's credit-related contingent features is presented in the\nCash provided by operations component of the Consolidated Statements of Cash Flows. The Company does not recognize amounts of non-cash collateral received, such\nas securities, on the Consolidated Balance Sheets. For further information related to credit risk, refer to Note 12 — Risk Management and Derivatives.\n2023 FORM 10-K 68Table of Contents\nThe following tables present information about the Company's derivative assets and liabilities measured at fair value on a recurring basis and indicate the level in the fair\nvalue hierarchy in which the Company classifies the fair value measurement:\nMAY 31, 2023\nDERIVATIVE ASSETS\nDERIVATIVE LIABILITIES"},{"id":"1d742199fb1a86aa8c3f7bcd580d94af","text": ... }
 
@@ -201,18 +211,21 @@ The output is retrived text that relevant to the input data:
 ### 4 TEI Reranking Service
 
 Reranking service
+
 ```
 curl http://${host_ip}:8808/rerank \
     -X POST \
     -d '{"query":"What is Deep Learning?", "texts": ["Deep Learning is not...", "Deep learning is..."]}' \
     -H 'Content-Type: application/json'
 ```
+
 Output is:
 `[{"index":1,"score":0.9988041},{"index":0,"score":0.022948774}]`
 
 It socres the input
 
 ### 5 Reranking Microservice
+
 ```
 curl http://${host_ip}:8000/v1/reranking\
   -X POST \
@@ -225,7 +238,8 @@ Here is the output:
 ```
 {"id":"e1eb0e44f56059fc01aa0334b1dac313","query":"Human: Answer the question based only on the following context:\n    Deep learning is...\n    Question: What is Deep Learning?","max_new_tokens":1024,"top_k":10,"top_p":0.95,"typical_p":0.95,"temperature":0.01,"repetition_penalty":1.03,"streaming":true}
 ```
-You may notice reranking microservice are with state ('ID' and othere meta data), while reranking service are not.
+
+You may notice reranking microservice are with state ('ID' and other meta data), while reranking service are not.
 
 ### 6 TGI Service
 
@@ -235,7 +249,9 @@ curl http://${host_ip}:8008/generate \
   -d '{"inputs":"What is Deep Learning?","parameters":{"max_new_tokens":64, "do_sample": true}}' \
   -H 'Content-Type: application/json'
 ```
-TGI service generate text for the input prompt.  Here is the expected result from TGI output:
+
+TGI service generate text for the input prompt. Here is the expected result from TGI output:
+
 ```
 {"generated_text":"We have all heard the buzzword, but our understanding of it is still growing. It’s a sub-field of Machine Learning, and it’s the cornerstone of today’s Machine Learning breakthroughs.\n\nDeep Learning makes machines act more like humans through their ability to generalize from very large"}
 ```
@@ -243,9 +259,11 @@ TGI service generate text for the input prompt.  Here is the expected result fro
 **NOTE**: After launch the TGI, it takes minutes for TGI server to load LLM model and warm up.
 
 If you get
+
 ```
 curl: (7) Failed to connect to 100.81.104.168 port 8008 after 0 ms: Connection refused
 ```
+
 and the log shows model warm up, please wait for a while and try it later.
 
 ```
